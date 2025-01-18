@@ -1,6 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import Filter from "@/components/Filter";
+import React, { Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store/strore";
 import { fetchProducts, Product } from "../redux/slices/productSlice";
@@ -88,7 +89,7 @@ const [isLoading, setIsLoading] = useState(true); // Set initial loading state t
     return <p className="flex justify-center items-center my-40">Error: {error}</p>;
   if (products.length === 0 ) {
     if (isLoading) {
-      return <Loading />;
+      return <Suspense fallback={<Loading />}/>;
     } else {
       return (
         <div className="flex flex-col items-center justify-center my-48">
