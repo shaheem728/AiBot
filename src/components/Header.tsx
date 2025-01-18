@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import SearchBox from "./SearchBox";
 import { Dropdown } from "flowbite-react";
 import { useRouter} from 'next/navigation';
-import {API_ADMIN} from './config'
+import {API_URL } from './config'
 import dynamic from "next/dynamic";
 const Header=()=> {
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -151,7 +151,7 @@ const Header=()=> {
                 {
                   id === 1 &&<>
                 <hr/>
-                <Dropdown.Item onClick={() =>{window.location.href=`${API_ADMIN}/admin/`}}>Admin</Dropdown.Item>
+                <Dropdown.Item onClick={() =>{window.location.href=`${API_URL }/admin/`}}>Admin</Dropdown.Item>
                   </>
                 }
              </>
