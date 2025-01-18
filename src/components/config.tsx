@@ -1,3 +1,2 @@
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-//export const API_URL = 'http://localhost:8000';
-export const API_ADMIN = 'http://127.0.0.1:8000';
+export const API_URL = process.env.REACT_APP_API_URL || 'https://shop-co-backend-rust.vercel.app';
+export const API_ADMIN = 'https://shop-co-backend-rust.vercel.app';
