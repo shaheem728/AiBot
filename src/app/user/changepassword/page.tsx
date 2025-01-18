@@ -19,7 +19,6 @@ export default function Page() {
      "password":password,
      "mobile":mobile,
     };
-    console.log("data",data)
     const response = await fetch(`${API_URL}/api/changepassword/`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -31,7 +30,10 @@ export default function Page() {
       if (response.ok) {
         setErrorMsg('');
         setSuccessMsg(true);
+        if (typeof window !== "undefined"){
         localStorage.removeItem('mobile');
+        return;
+        }
         setTimeout(() => {
           location.href = '/user/login';
         }, 2000);
