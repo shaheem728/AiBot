@@ -1,4 +1,3 @@
-import { fstat } from 'fs';
 import dynamic from 'next/dynamic';
 import React from 'react';
 function Loading() {
