@@ -1,15 +1,14 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import Filter from "@/components/Filter";
-import React, { Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store/strore";
 import { fetchProducts, Product } from "../redux/slices/productSlice";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState, Suspense } from "react";
 import ProductCard from "@/components/ProductCard";
 import { Drawer } from "flowbite-react";
 import Loading from "@/components/Loading";
-export default function Page() {
+function ProductsPage() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const [page, setPage] = useState(1);
@@ -89,7 +88,7 @@ const [isLoading, setIsLoading] = useState(true); // Set initial loading state t
     return <p className="flex justify-center items-center my-40">Error: {error}</p>;
   if (products.length === 0 ) {
     if (isLoading) {
-      return <Suspense fallback={<Loading />}/>;
+      return <Loading />;
     } else {
       return (
         <div className="flex flex-col items-center justify-center my-48">
@@ -241,13 +240,19 @@ const [isLoading, setIsLoading] = useState(true); // Set initial loading state t
                     />
                   </svg>
                 </button>
-                }
-               
+                }             
               </div>
             </div>
           </div>
         </section>
       </main>
     </div>
+  );
+}
+export default function Page() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <ProductsPage />
+    </Suspense>
   );
 }

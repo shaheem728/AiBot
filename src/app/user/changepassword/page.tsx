@@ -1,14 +1,19 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import {API_URL} from '@/components/config'
 export default function Page() {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const mobileString = localStorage.getItem('mobile');
-  const mobile = mobileString ? JSON.parse(mobileString) : null; // Use null if not found
+  const [mobile, setMobile] = useState(null);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const mobileString = localStorage.getItem('mobile');
+      setMobile(mobileString ? JSON.parse(mobileString) : null);
+    }
+  }, []);
   async function handleForm() {
     // Prevent default form submission behavior
     if (password !== confirmPassword) {
