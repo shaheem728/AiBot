@@ -4,9 +4,10 @@ import {API_URL} from '@/components/config'
     if (typeof window !== "undefined") {
     userToken = localStorage.getItem("token");
     }
+    let refreshtoken: string | undefined;
     if(userToken) {
       const parsedUserToken = JSON.parse(userToken);
-      var refreshtoken = parsedUserToken.refresh ;
+      refreshtoken = parsedUserToken.refresh ;
     }
 export const refreshToken = async () => {
     const response = await fetch(`${API_URL}/api/token/refresh/`, {

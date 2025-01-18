@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from 'next/script';
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -36,7 +37,10 @@ export default function RootLayout({
         <Breadcrumbs/>
         {children}
         <Footer/>
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+        <Script
+            src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"
+            strategy="lazyOnload"
+          />
       </body>
       </ReduxProvider>  
     </html>

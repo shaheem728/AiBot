@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import Link from 'next/link';
+import Loading from './Loading';
 export default function OrderHistory() {
   const [id, setId] = useState<null>(null);
   const router = useRouter()
@@ -25,7 +26,7 @@ export default function OrderHistory() {
         }
       }, [dispatch, id, status]);
       if (status === "loading") {
-        return <div>Loading...</div>;
+        return <Loading/>
     }
     if (status === "failed") {
         return <div>Error loading orders.</div>;
@@ -70,7 +71,10 @@ export default function OrderHistory() {
                         {item.name} (x{item.quantity})
                       </span>
                       <span>{item.price * item.quantity}</span>
-                      <Link className='text-blue-700 hover:text-blue-500' href={`/user/orders_review/${item.product}`}>Rating & Review Product</Link>
+                      {
+                        order.isPaid === true &&  <Link className='text-blue-700 hover:text-blue-500' href={`/user/orders_review/${item.product}`}>Rating & Review Product</Link>
+                      }
+                     
                     </li>
                   ))}
                 </ul>

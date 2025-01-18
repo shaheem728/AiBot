@@ -15,7 +15,7 @@ interface CartState {
   items: CartItem[];
 }
 // Helper function to load cart Items from localStorage
-const loadCartFromLocalStorage = (): CartItem[] => {
+const loadCartFromLocalStorage = ()=> {
   if (typeof window !== "undefined") {
     const storedCart = localStorage.getItem("cart");
     return storedCart ? JSON.parse(storedCart) : [];

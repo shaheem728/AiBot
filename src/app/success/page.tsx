@@ -14,8 +14,8 @@ export default function Page(){
               }
           })
     }
-   const uuid = localStorage.getItem("orderId")
    useEffect(() => {
+    const uuid = localStorage.getItem("orderId")
     if (uuid) {
         fetch(`${API_URL}/api/order-Update/${uuid}/`, {
             method: 'PUT',
@@ -38,7 +38,7 @@ export default function Page(){
             });
         
     }
-   },[uuid])
+   },[])
     return (
         <div>
          

@@ -1,7 +1,8 @@
 'use client'
 import { useState } from "react";
 import { useRouter} from 'next/navigation';
-export default function SearchBox() {
+import dynamic from "next/dynamic";
+const SearchBox =()=> {
   const [query, setQuery] = useState<string>("");
   const router = useRouter();
   const handleSearch = (e: React.FormEvent) => {
@@ -38,3 +39,4 @@ export default function SearchBox() {
     </>
   );
 }
+export default dynamic(() => Promise.resolve(SearchBox), { ssr: false });

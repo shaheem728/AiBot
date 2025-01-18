@@ -122,7 +122,7 @@ export default function Filter({handleChanges,onSelectSize,onSelectColor,onSelec
         >
           {subCategories.map((category) => (
             <li key={category.name} className="flex justify-between">
-              <input className={`hover:text-blue-500${selectedcategory === category.name?'text-blue-600':''}`} type='button'  onClick={()=>{onSelectCategory(category.name),setSelectedCategory(category.name)}} value={category.name}  name={category.name}  />
+              <input className={`hover:text-blue-500${selectedcategory === category.name?'text-blue-600':''}`} type='button'  onClick={()=>{onSelectCategory(category.name);setSelectedCategory(category.name)}} value={category.name}  name={category.name}  />
               <svg
                 className={`w-[19px] h-[19px] text-gray-400 dark:text-white${selectedcategory === category.name?'text-blue-600':''}`}
                 aria-hidden="true"
@@ -292,7 +292,7 @@ export default function Filter({handleChanges,onSelectSize,onSelectColor,onSelec
             className={`rounded-full bg-secondary hover:bg-black hover:text-white text-gray-400 h-11 w-auto m-1 place-content-center px-5 ${
               selectedSize === size.name ? 'ring-4 ring-black' : ''
             }`}
-            onClick={() => {setSelectedSize(size.name), onSelectSize(size.name)}}
+            onClick={() => {setSelectedSize(size.name);onSelectSize(size.name)}}
           >
             {size.name}
           </div>
@@ -345,7 +345,7 @@ export default function Filter({handleChanges,onSelectSize,onSelectColor,onSelec
                     key={style.name}
                     className="flex justify-between"
                   >
-                    <input className={`hover:text-blue-500${selectedcategory === style.name?'text-blue-600':''}`} type='button'  onClick={()=>{onSelectCategory(style.name),setSelectedCategory(style.name)}} value={style.name}  name={style.name}  />
+                    <input className={`hover:text-blue-500${selectedcategory === style.name?'text-blue-600':''}`} type='button'  onClick={()=>{onSelectCategory(style.name);setSelectedCategory(style.name)}} value={style.name}  name={style.name}  />
                    <svg
                       className="w-[19px] h-[19px] text-gray-400 dark:text-white"
                       aria-hidden="true"

@@ -10,7 +10,7 @@ import { fetchProducts, Product } from "@/app/redux/slices/productSlice";
 import ProductDetail from "@/components/ProductDetail";
 import RelatedProducts from "@/components/RelatedProducts";
 import Loading from '@/components/Loading';
-interface Image {
+interface Images {
   image: string;
 }
 export default function Page({
@@ -137,7 +137,7 @@ export default function Page({
               <div className="flex flex-col-reverse lg:flex-row">
                 {/* Small images */}
                 <div className="flex lg:flex-col">
-                  {filteredImages.map((image: Image, index: number) => (
+                  {filteredImages.map((image: Images, index: number) => (
                     <div
                       key={index}
                       className={`m-2 w-36 h-40 bg-secondary rounded-2xl cursor-pointer ${
@@ -160,10 +160,12 @@ export default function Page({
                 {/* Big image */}
                 <div className="md:w-[430px] h-[32em] mx-1 bg-secondary rounded-2xl">
                   {filteredImages.length > 0 && (
-                    <img
+                    <Image
                       className="w-full h-full object-fill rounded-2xl"
                       src={selectedImage || filteredImages[0]?.image}
                       alt={detail.name}
+                      width={400}
+                      height={400}
                     />
                   )}
                 </div>
@@ -201,7 +203,7 @@ export default function Page({
             </div>
             <p className="text-gray-600 text-sm my-3">{detail.description}</p>
             <hr />
-            <p className="text-gray-600 text-sm mt-3">Select Color's</p>
+            <p className="text-gray-600 text-sm mt-3">Select Color&apos;s</p>
             <div className="flex flex-wrap">
               {detail.colors.map((color) => (
                 <ColorSelector

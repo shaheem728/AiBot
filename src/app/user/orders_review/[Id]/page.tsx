@@ -1,6 +1,7 @@
 "use client";
 import { API_URL } from "@/components/config";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Swal from "sweetalert2";
 import { AppDispatch, RootState } from "@/app/redux/store/strore";
 import { useSelector, useDispatch } from "react-redux";
@@ -85,7 +86,7 @@ export default function Page({ params }: { params: Promise<{ Id: string }> }) {
           setToken(parsedUserToken.access);
         }
       }
-    } catch (error) {
+    } catch{
       setErrorMsg("Something went wrong. Please try again.");
     }
   }
@@ -120,10 +121,12 @@ export default function Page({ params }: { params: Promise<{ Id: string }> }) {
               <h4 className="text-gray-600">{order?.order_items[0].name}</h4>
             </div>
             <div>
-              <img
+              <Image
                 className="h-20 w-auto object-contain rounded-md"
                 src={order?.order_items[0].image}
                 alt="produt_image"
+                width={200}
+                height={200}
               />
             </div>
           </div>

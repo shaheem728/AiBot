@@ -27,15 +27,11 @@ const [isLoading, setIsLoading] = useState(true); // Set initial loading state t
     }
   }, [dispatch, status,page]);
   useEffect(() => {
-    if (status === "succeeded") {
     dispatch(fetchProducts({ page: page, search: category }));
-    }
-  }, [category, page]);
+  }, [category, page,dispatch]);
   useEffect(() => {
-    if (status === "succeeded") {
     dispatch(fetchProducts({ page: page, search: search }));
-    }
-  }, [search]);
+  }, [search,dispatch,page]);
   useEffect(() => {
     if (products.length === 0) {
       setIsLoading(true);

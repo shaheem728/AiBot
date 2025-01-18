@@ -1,3 +1,5 @@
+import { fstat } from 'fs';
+import dynamic from 'next/dynamic';
 import React from 'react';
 function Loading() {
   return (
@@ -14,4 +16,4 @@ function Loading() {
    </div>
   );
 }
-export default Loading;
+export default dynamic(()=>Promise.resolve(Loading),{ssr:false});

@@ -229,9 +229,9 @@ export default  function Page({ detail }:PageProps) {
                 Credit/Debit Cards: Visa, MasterCard, American Express
                 </p>
                 <p className="text-gray-500 dark:text-gray-400">
-         
-                Yes, we accept all major credit cards including Visa, MasterCard, and American Express. Simply select the "Credit Card" option during checkout and enter your card details securely.
-                </p>
+                Yes, we accept all major credit cards including Visa, MasterCard, and American Express. Simply select the &quot;Credit Card&quot; option during checkout and enter your card details securely.
+              </p>
+
               </div>
             </div>
             <h2 id="accordion-collapse-heading-3">
@@ -271,7 +271,7 @@ export default  function Page({ detail }:PageProps) {
             >
               <div className="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p className="mb-2 text-gray-500 dark:text-gray-400">
-                If you're seeking to return a product after the 7-day window, please get in touch with our customer support team. 
+                If you&apos;re seeking to return a product after the 7-day window, please get in touch with our customer support team. 
                 They will assist you in determining eligibility and guide you through the process. For damaged or defective items, we may extend the return period.
                 </p>
               </div>

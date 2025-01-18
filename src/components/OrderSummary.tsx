@@ -16,7 +16,7 @@ export default function OrderSummary({ handleStep, handlePrevious }:PageProps) {
       const userAccessToken = JSON.parse(userToken);
       setToken(userAccessToken.access);
     }
-  }, []);
+  }, [userToken]);
   const userInfo = useSelector((state: RootState) => state.userDetail.userInfo);
   const shippingAddress = useSelector(
     (state: RootState) => state.shipping.items
@@ -86,15 +86,15 @@ export default function OrderSummary({ handleStep, handlePrevious }:PageProps) {
         },
         body: JSON.stringify(payload),
       });
+      if (response.ok) {
+        handleSubmit();
+        alert("order success")
+      }
       if (!response.ok) {
         const errorData = await response.json();
         setErrorMsg(errorData)
         console.log("API Error:", errorData);
         return;
-      }
-      if (response.ok) {
-        handleSubmit();
-        localStorage.removeItem("cart");
       }
   
       const data = await response.json();

@@ -58,7 +58,6 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
       last_name:
         formData.get("last_name")?.toString() || userInfo?.last_name || "",
     };
-    console.log("userData=", userData);
     try {
       const response = await fetch(`${API_URL}/api/user/update/`, {
         method: "PATCH",
@@ -141,7 +140,7 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
               <button
                 className="justify-self-end"
                 onClick={() => {
-                  setEnable(true), refreshToken();
+                  setEnable(true); refreshToken();
                 }}
               >
                 <svg
