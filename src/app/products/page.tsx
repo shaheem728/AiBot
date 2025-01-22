@@ -105,8 +105,6 @@ const [isLoading, setIsLoading] = useState(true); // Set initial loading state t
       );
     }
     }
-   
- 
   return (
     <div className="bg-white">
       {/* Mobile filter */}
@@ -138,7 +136,7 @@ const [isLoading, setIsLoading] = useState(true); // Set initial loading state t
           </div>
           <Drawer open={isOpen} onClose={handleClose} position="bottom">
             <Drawer.Header title="Shop.co" />
-            <Drawer.Items>
+            <Drawer.Items className="overflow-auto">
               <Filter
                 handleChanges={handleChanges}
                 onSelectSize={handleSize}

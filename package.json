@@ -20,7 +20,8 @@
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
     "sweetalert2": "^11.6.13",
-    "swiper": "^11.1.15"
+    "swiper": "^11.1.15",
+    "zod": "^3.25.0-canary.20241210T225910"
   },
   "devDependencies": {
     "@types/node": "^20",

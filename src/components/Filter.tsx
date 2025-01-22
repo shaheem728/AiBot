@@ -180,7 +180,7 @@ export default function Filter({handleChanges,onSelectSize,onSelectColor,onSelec
             className={`${isOpen ? '' : 'hidden'} h-[100px]`}
             aria-labelledby="accordion-collapse-heading-1"
           >
-            <div className="p-5   border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+            <div className="p-5">
               <Range
                 min={0}
                 max={500}
@@ -226,7 +226,7 @@ export default function Filter({handleChanges,onSelectSize,onSelectColor,onSelec
             className={`${isOpen1? '' : 'hidden'}`}
             aria-labelledby="accordion-collapse-heading-2"
           >
-            <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+            <div className="p-5 ">
             <div className="flex flex-wrap">
             <span
                 className='rounded-full mt-3 h-10 w-10 me-1 flex items-center justify-center text-slate-400 font-serif'

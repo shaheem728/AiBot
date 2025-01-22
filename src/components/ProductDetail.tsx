@@ -1,4 +1,4 @@
-import {API_URL} from './config'
+import {API_URL} from '@/components/config'
 import { SetStateAction, useEffect, useState } from "react";
 import Reviews from "./Reviews";
 import { Product } from '@/app/redux/slices/productSlice';
@@ -21,7 +21,6 @@ export default  function Page({ detail }:PageProps) {
         };
         fetchReviews();
     }, [detail.uuid]);
-  console.log("revieWData=",reviewsData)
   const handleTabClick = (tabId: SetStateAction<string>) => {
     setActiveTab(tabId);
   };
@@ -29,7 +28,6 @@ export default  function Page({ detail }:PageProps) {
     setActiveFQS(tabId);
   };
   return (
-  
     <div className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <ul
         className="flex flex-wrap justify-around text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"

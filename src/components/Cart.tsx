@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/app/redux/store/strore";
 import { useEffect, useMemo, useState } from "react";
 import { fetchProducts } from "@/app/redux/slices/productSlice";
-import { refreshToken } from "@/app/redux/slices/userDetailSlice";
+import { isTokenExpired } from "@/utils/actions/auth";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 export default function CartPage() {
@@ -211,7 +211,7 @@ export default function CartPage() {
                   className="bg-black flex justify-center items-center gap-3 rounded-full text-white py-4 px-14 my-2"
                   onClick={async () => {
                     try {
-                      await refreshToken(); // Ensure refreshToken is awaited if asynchronous
+                      await isTokenExpired(); // Ensure refreshToken is awaited if asynchronous
                       if (user) {
                         router.push("/checkout");
                       } else {

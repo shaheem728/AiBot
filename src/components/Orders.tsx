@@ -8,20 +8,22 @@ import { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import Link from 'next/link';
 import Loading from './Loading';
+import {isTokenExpired} from '@/utils/actions/auth'
 export default function OrderHistory() {
   const [id, setId] = useState<null>(null);
   const router = useRouter()
-    useEffect(() => {
+   useEffect(() => {
       const userData = localStorage.getItem("user");
       if (userData) {
-        const parsedUser = JSON.parse(userData);
-        setId(parsedUser.user_id); // Set the user state
+        const User = JSON.parse(userData);
+        setId(User); // Set the user state
       }
     }, []);
     const dispatch:AppDispatch = useDispatch()
     const {status,orders} = useSelector((state: RootState) => state.order);
     useEffect(() => {
         if (status === "idle" && id) {
+          isTokenExpired()
           dispatch(fetchOrdrDetail(id));
         }
       }, [dispatch, id, status]);
@@ -67,14 +69,14 @@ export default function OrderHistory() {
                           height={64} 
                           className="h-16 object-contain m-0"
                         />
-                      <span>
+                      <span className='m-auto'>
                         {item.name} (x{item.quantity})
                       </span>
-                      <span>{item.price * item.quantity}</span>
+                      <span className='m-auto hidden lg:block'>{item.price * item.quantity}</span>
                       {
-                        order.isPaid === true &&  <Link className='text-blue-700 hover:text-blue-500' href={`/user/orders_review/${item.product}`}>Rating & Review Product</Link>
+                        order.isPaid === true &&  <Link className='text-sm m-auto text-blue-700 hover:text-blue-500' href={`/user/orders_review/${item.product}`}>Rate & Review </Link>
                       }
-                     
+                     <span className='m-auto lg:hidden'>{item.price * item.quantity}</span>
                     </li>
                   ))}
                 </ul>

@@ -3,32 +3,36 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../app/redux/store/strore";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {API_URL} from './config'
-import {
-  fetchuserDetail,
-  UserDetail,
-  refreshToken,
-} from "../app/redux/slices/userDetailSlice";
+import { API_URL } from "@/components/config";
+import { getAuthTokens, isTokenExpired } from "@/utils/actions/auth";
+import { fetchuserDetail } from "@/app/redux/slices/userDetailSlice";
 interface PageProps {
   handleStep?: () => void;
-  isStep:boolean
+  isStep: boolean;
 }
-export default function PersonalInfo({ handleStep,isStep }: PageProps) {
+interface UserDetail {
+  email: string;
+  first_name: string;
+  last_name: string;
+  profile: {
+    address: string;
+    order_mobile: string;
+  };
+}
+export default function PersonalInfo({ handleStep, isStep }: PageProps) {
   const [isenable, setEnable] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [id, setId] = useState<number>(0);
-  const [token, setToken] = useState<null>(null);
+  const [token, setToken] = useState<string>();
   const dispatch: AppDispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
+    isTokenExpired();
     const userData = localStorage.getItem("user");
-    const userToken = localStorage.getItem("token");
-    if (userData && userToken) {
+    if (userData) {
       const User = JSON.parse(userData);
-      const userAccessToken = JSON.parse(userToken);
-      setId(User.user_id); // Set the user state
-      setToken(userAccessToken.access);
+      setId(User); // Set the user state
     }
   }, []);
 
@@ -36,30 +40,37 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
     (state: RootState) => state.userDetail
   );
   useEffect(() => {
-    if (status === "idle" && id) {
+    isTokenExpired();
+    if (status === "idle" && id && !userInfo) {
       dispatch(fetchuserDetail(id));
     }
-  }, [dispatch, id, status]);
+  }, [dispatch, id, status, userInfo]);
+  async function getToken() {
+    const token = await getAuthTokens();
+    setToken(token.access_token);
+  }
   async function handleForm(formData: FormData) {
-    const mobileNumber = formData.get("phone")?.toString() || ""; // Get phone number as string or empty string
     const userData: UserDetail = {
-      username: userInfo?.username || "",
       email: formData.get("email")?.toString() || userInfo?.email || "",
-      profile: {
-        // Only include mobile if a phone number is provided
-        ...(mobileNumber ? { mobile: mobileNumber } : {}), // Include mobile only if it's not an empty string
-        address:
-          formData.get("address")?.toString() ||
-          userInfo?.profile.address ||
-          "",
-      },
       first_name:
         formData.get("first_name")?.toString() || userInfo?.first_name || "",
       last_name:
         formData.get("last_name")?.toString() || userInfo?.last_name || "",
+      profile: {
+        address:
+          formData.get("address")?.toString() ||
+          userInfo?.profile.address ||
+          "",
+        order_mobile:
+          formData.get("phone")?.toString() ||
+          userInfo?.profile.order_mobile ||
+          userInfo?.profile.mobile ||
+          "",
+      },
     };
     try {
-      const response = await fetch(`${API_URL}/api/user/update/`, {
+      getToken();
+      const response = await fetch(`${API_URL}/api/user/update/${id}/`, {
         method: "PATCH",
         body: JSON.stringify(userData),
         headers: {
@@ -70,38 +81,43 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
       if (response.ok) {
         if (handleStep) {
           handleStep();
-          dispatch(fetchuserDetail(id))
-        } else {
+          dispatch(fetchuserDetail(id));
+          return;
+        }
+        if (isStep == false) {
           setSuccessMsg(true);
           setEnable(false);
-          window.location.reload();
+          dispatch(fetchuserDetail(id));
+          return;
         }
       } else {
         const errorData = await response.json();
-        if (errorData.profile?.mobile) {
-          setErrorMsg(errorData.profile.mobile[0]);
+        if (errorData) {
+          // Extract 'detail' or other relevant error message
+          setErrorMsg(
+            errorData.detail || "An unknown error occurred.Please try again"
+          );
         }
-        setSuccessMsg(false);
       }
     } catch {
       setErrorMsg("Something went wrong. Please try again.");
-      setSuccessMsg(false);
     }
   }
   return (
     <div className="flex  ">
       <section className="m-auto items-center mt-2 justify-center bg-gray-50">
-        <div className=" w-[75vw]  border rounded-2xl px-6 py-8 bg-white shadow-lg">
+        <div className=" md:w-[75vw] w-full border rounded-2xl px-6 py-8 bg-white shadow-lg">
           <h1 className="font-extrabold text-4xl text-center mb-6">
             Personal Info
           </h1>
           {successMsg && (
             <div
-              className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800"
+              id="alert-3"
+              className={`flex items-center ${successMsg?'block':'hidden'} p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400`}
               role="alert"
             >
               <svg
-                className="flex-shrink-0 inline w-4 h-4 me-3"
+                className="flex-shrink-0 w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -110,18 +126,42 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
               </svg>
               <span className="sr-only">Info</span>
-              <div>
-                <span className="font-medium">Success fully Changed!</span>
+              <div className="ms-3 text-sm font-medium">
+                Success fully Changed!
               </div>
+              <button
+                type="button"
+                className="ms-auto -mx-1.5 -my-1.5 bg-green-400 text-green-600 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                data-dismiss-target="#alert-3"
+                onClick={()=>{setSuccessMsg(false)}}
+              >
+                <span className="sr-only">Close</span>
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </button>
             </div>
           )}
           {errorMsg && (
             <div
-              className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+              id="alert-2"
+              className={`flex items-center p-4 mb-4 ${errorMsg?'block':'hidden'} text-red-800 rounded-lg bg-red-200 `}
               role="alert"
             >
               <svg
-                className="flex-shrink-0 inline w-4 h-4 me-3"
+                className="flex-shrink-0 w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -130,9 +170,34 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
               </svg>
               <span className="sr-only">Info</span>
-              <div>
-                <span className="font-medium">{errorMsg}</span>
+              <div className="ms-3 text-sm font-medium">
+                {typeof errorMsg === "string"
+                  ? ` ${errorMsg}.Please try again`
+                  : "An error occurred.Please try again"}
               </div>
+              <button
+                type="button"
+                className="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 "
+                data-dismiss-target="#alert-2"
+                onClick={()=>{setErrorMsg('')}}
+              >
+                <span className="sr-only">Close</span>
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </button>
             </div>
           )}
           <div className="grid">
@@ -140,7 +205,9 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
               <button
                 className="justify-self-end"
                 onClick={() => {
-                  setEnable(true); refreshToken();
+                  setEnable(true);
+                  isTokenExpired();
+                  getAuthTokens();
                 }}
               >
                 <svg
@@ -170,16 +237,16 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                 <div>
                   <label
                     htmlFor="first_name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-900 "
                   >
                     First name
                   </label>
                   <input
-                    defaultValue={userInfo?.first_name || ""}
+                    defaultValue={(userInfo && userInfo?.first_name) || ""}
                     type="text"
                     id="first_name"
                     name="first_name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                     required
                   />
                 </div>
@@ -191,7 +258,7 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                     Last name
                   </label>
                   <input
-                    defaultValue={userInfo?.last_name || ""}
+                    defaultValue={(userInfo && userInfo?.last_name) || ""}
                     type="text"
                     id="last_name"
                     name="last_name"
@@ -211,7 +278,11 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                     id="phone"
                     name="phone"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder={userInfo?.profile.mobile || ""}
+                    placeholder={
+                      (userInfo && userInfo?.profile.order_mobile) ||
+                      (userInfo && userInfo?.profile.mobile) ||
+                      ""
+                    }
                   />
                 </div>
                 <div>
@@ -222,7 +293,7 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                     Email address
                   </label>
                   <input
-                    defaultValue={userInfo?.email || ""}
+                    defaultValue={(userInfo && userInfo?.email) || ""}
                     type="email"
                     id="email"
                     name="email"
@@ -238,7 +309,7 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                   Address
                 </label>
                 <textarea
-                  defaultValue={userInfo?.profile.address || ""}
+                  defaultValue={(userInfo && userInfo?.profile.address) || ""}
                   id="address"
                   name="address"
                   rows={4}
@@ -260,12 +331,13 @@ export default function PersonalInfo({ handleStep,isStep }: PageProps) {
                   hidden={!isenable}
                   onClick={() => {
                     setEnable(false);
+                    getToken();
                   }}
                 >
                   Cancel
                 </button>
               </div>
-              {isStep === true&& (
+              {isStep === true && (
                 <div className="flex justify-between">
                   <button
                     className="bg-black flex justify-center items-center  rounded-full text-white py-4 px-14 my-2"

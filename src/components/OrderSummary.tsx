@@ -1,22 +1,18 @@
-import { API_URL } from "./config";
+import { API_URL } from '@/components/config'
 import { RootState } from "@/app/redux/store/strore";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import {getAuthTokens ,isTokenExpired} from '@/utils/actions/auth'
 import Image from "next/image";
 interface PageProps {
   handleStep: () => void;
   handlePrevious: () => void;
 }
 export default function OrderSummary({ handleStep, handlePrevious }:PageProps) {
-  const [token, setToken] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const userToken = localStorage.getItem("token");
-  useEffect(() => {
-    if (userToken) {
-      const userAccessToken = JSON.parse(userToken);
-      setToken(userAccessToken.access);
-    }
-  }, [userToken]);
+  useEffect(()=>{
+    isTokenExpired()
+  },[])
   const userInfo = useSelector((state: RootState) => state.userDetail.userInfo);
   const shippingAddress = useSelector(
     (state: RootState) => state.shipping.items
@@ -49,25 +45,27 @@ export default function OrderSummary({ handleStep, handlePrevious }:PageProps) {
         },
         totalPrice: total,
       };
-  
+      const {access_token} = await getAuthTokens()
       const response = await fetch(`${API_URL}/api/create-order/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access_token}`,
         },
         body: JSON.stringify(payload),
       });
       const data = await response.json();
+      console.log("respons=",data)
       if(response){
         localStorage.setItem("orderId",data.uuid)
+        handlepayment();
       }
       if (!response.ok) {
         const errorData = await response.json();
-        setErrorMsg(errorData)
+        setErrorMsg(errorData);
+        isTokenExpired();
         return;
       }
-      handleStep();
     }catch{
       setErrorMsg("Network error during order creation")
     }
@@ -78,21 +76,19 @@ export default function OrderSummary({ handleStep, handlePrevious }:PageProps) {
       total,
     };
     try {
+      const {access_token} = await getAuthTokens()
       const response = await fetch(`${API_URL}/api/create-checkout-session/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access_token}`,
         },
         body: JSON.stringify(payload),
       });
-      if (response.ok) {
-        handleSubmit();
-        alert("order success")
-      }
       if (!response.ok) {
         const errorData = await response.json();
-        setErrorMsg(errorData)
+        setErrorMsg(errorData);
+        isTokenExpired();
         console.log("API Error:", errorData);
         return;
       }
@@ -270,7 +266,8 @@ export default function OrderSummary({ handleStep, handlePrevious }:PageProps) {
           className="bg-black flex justify-center items-center gap-3 rounded-full text-white py-4 px-14 my-2"
           type="submit"
           onClick={() => {
-            handlepayment();
+            handleSubmit();
+            handleStep();
           }}
         >
           PAY NOW

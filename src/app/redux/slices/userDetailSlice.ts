@@ -1,55 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import {getAuthTokens ,isTokenExpired} from '@/utils/actions/auth'
 import {API_URL} from '@/components/config'
-    let userToken: string | null = null;
-    if (typeof window !== "undefined") {
-    userToken = localStorage.getItem("token");
-    }
-    let refreshtoken: string | undefined;
-    if(userToken) {
-      const parsedUserToken = JSON.parse(userToken);
-      refreshtoken = parsedUserToken.refresh ;
-    }
-export const refreshToken = async () => {
-    const response = await fetch(`${API_URL}/api/token/refresh/`, {
-        method: "POST",
-        body: JSON.stringify({ refresh: refreshtoken }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json(); 
-      if (response.ok) {
-        localStorage.setItem("token", JSON.stringify(data));
-        return ;
-      }
-      if(!response.ok){
-        logout()
-      }
-    }
-export const logout = async () => {
-    const response = await fetch(`${API_URL}/api/logout/`, {
-        method: 'POST',
-        body: JSON.stringify({ refresh_token: refreshtoken }),
-        headers: {
-            'Content-Type': 'application/json', // Include access token here
-        },
-    });
-    if (response.ok) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user')
-        location.href="/user/login"
-    } else {
-        alert("Authentication failed");
-    }
-    }
 export interface UserDetail {
-    username: string;
     email: string;
     first_name:string;
     last_name:string;
     profile: { 
-        mobile?: string;
+        mobile?:string;
         address: string;
+        order_mobile:string;
     };
 }
 interface userDetailState {
@@ -63,13 +22,23 @@ const initialState: userDetailState = {
     error:null,
 }
 export const fetchuserDetail = createAsyncThunk('userDetail/fetchuserDetail', async (id:number) => {
-    const response = await fetch(`${API_URL}/api/user/`+id);
-    if (!response.ok) {
-        throw new Error('Failed to fetch user details');
+        const  token = await getAuthTokens()
+        const response = await fetch(`${API_URL}/api/user/`+id,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${token.access_token}`
+            },
+        });
+        if (!response.ok) {
+            isTokenExpired()
+            throw new Error('Failed to fetch user details');
+        }
+        const data: UserDetail = await response.json(); // Ensure the data is of type User
+        return data; // Return the fetched user data
+
     }
-    const data: UserDetail = await response.json(); // Ensure the data is of type User
-    return data; // Return the fetched user data
-});
+);
 const userDetailSlice = createSlice({
     name: 'userDetail',
     initialState,

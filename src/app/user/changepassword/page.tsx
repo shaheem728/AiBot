@@ -2,12 +2,14 @@
 import Link from 'next/link';
 import { useState,useEffect } from 'react';
 import {API_URL} from '@/components/config'
+import {useRouter} from 'next/navigation'
 export default function Page() {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [mobile, setMobile] = useState(null);
+  const router = useRouter()
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const mobileString = localStorage.getItem('mobile');
@@ -35,13 +37,12 @@ export default function Page() {
       if (response.ok) {
         setErrorMsg('');
         setSuccessMsg(true);
+        setTimeout(() => {
+          router.push('/user/login')
+        }, 2000);
         if (typeof window !== "undefined"){
         localStorage.removeItem('mobile');
-        return;
         }
-        setTimeout(() => {
-          location.href = '/user/login';
-        }, 2000);
       } else {
         setErrorMsg(res.message || 'Unexpected error occurred');
       }
@@ -119,23 +120,13 @@ export default function Page() {
             Submit
           </button>
         </form>
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <div className="text-center text-sm text-gray-500 mt-4">
           Don’t have an account?{' '}
           <Link href="/user/signup" className="text-gray-500 hover:text-blue-500 font-medium hover:underline">
             Register
           </Link>
-        </p>
-        <div className="flex items-center my-4">
-          <hr className="flex-grow border-t border-gray-300" />
-          <span className="px-2 text-sm text-gray-400">OR</span>
-          <hr className="flex-grow border-t border-gray-300" />
         </div>
-        <p className="text-center text-sm text-gray-500 mt-4">
-          Forgot your password?{' '}
-          <Link href="/user/forgetpassword" className="text-gray-500 hover:text-blue-500 font-medium hover:underline">
-            Click here
-          </Link>
-        </p>
+      
       </div>
     </section>
   );

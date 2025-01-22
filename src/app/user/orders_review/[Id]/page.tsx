@@ -1,13 +1,13 @@
 "use client";
 import { API_URL } from "@/components/config";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Swal from "sweetalert2";
 import { AppDispatch, RootState } from "@/app/redux/store/strore";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchOrdrDetail, Order } from "@/app/redux/slices/orderSlice";
 import { useRouter } from "next/navigation";
-import { refreshToken } from "@/app/redux/slices/userDetailSlice";
+import { isTokenExpired,getAuthTokens } from "@/utils/actions/auth";
+import Image from "next/image";
 export default function Page({ params }: { params: Promise<{ Id: string }> }) {
   const { Id } = React.use(params);
   const [errorMsg, setErrorMsg] = useState("");
@@ -16,6 +16,10 @@ export default function Page({ params }: { params: Promise<{ Id: string }> }) {
   const [id, setId] = useState<any>(null);
   const [token, setToken] = useState<any>(null);
   const router = useRouter();
+  async function getToken() {
+    const token = await getAuthTokens();
+    setToken(token.access_token);
+  }
   useEffect(() => {
     const userData = localStorage.getItem("user");
     const userToken = localStorage.getItem("token");
@@ -67,6 +71,7 @@ export default function Page({ params }: { params: Promise<{ Id: string }> }) {
       comment: formData.get("comment"),
     };
     try {
+      getToken() 
       const response = await fetch(`${API_URL}/api/createreview/`, {
         method: "POST",
         headers: {
@@ -78,15 +83,13 @@ export default function Page({ params }: { params: Promise<{ Id: string }> }) {
       if (response.ok) {
         handleAlert();
       } else {
-        refreshToken();
+        isTokenExpired();
         setErrorMsg("Something went wrong. Please try again.");
-        const userToken = localStorage.getItem("token");
-        if (userToken) {
-          const parsedUserToken = JSON.parse(userToken);
-          setToken(parsedUserToken.access);
-        }
+        getToken()
       }
     } catch{
+      handleAlert();
+      getToken()
       setErrorMsg("Something went wrong. Please try again.");
     }
   }
@@ -121,13 +124,20 @@ export default function Page({ params }: { params: Promise<{ Id: string }> }) {
               <h4 className="text-gray-600">{order?.order_items[0].name}</h4>
             </div>
             <div>
-              <Image
-                className="h-20 w-auto object-contain rounded-md"
-                src={order?.order_items[0].image}
-                alt="produt_image"
-                width={200}
-                height={200}
-              />
+              {
+                order.order_items.map((item:any,index:number)=>{
+                  return (
+                    <Image
+                    key={index}
+                    className="h-20 w-auto object-contain rounded-md"
+                    src={item.image}
+                    alt="produt_image"
+                    height={200}
+                    width={200}
+                  />
+                  )
+                })
+              }
             </div>
           </div>
           <div className="grid">

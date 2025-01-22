@@ -52,17 +52,17 @@ export default function Page({
   };
   useEffect(() => {
     if (detail) {
-      setPrice(detail.price * qty);
-      // Set default color and image if available
-      if (detail.colors.length > 0) {
+      // Only set defaults if no color or image is already selected
+      if (!selectedColor && detail.colors.length > 0) {
         const defaultColor = detail.colors[0];
         setSelectedColor(defaultColor.color_name);
-        if (defaultColor.images.length > 0) {
+  
+        if (!selectedImage && defaultColor.images.length > 0) {
           setSelectedImage(defaultColor.images[0].image);
         }
       }
     }
-  }, [detail,qty]);
+  }, [detail,selectedColor, selectedImage]);
   useEffect(() => {
     if (!detail) {
       setIsLoading(true);
@@ -100,7 +100,6 @@ export default function Page({
       setQty(qty + 1);
     }
     if (price < detail.price * detail.stock) {
-      console.log("p=", price);
       const p = detail.price;
       setPrice(p * (qty + 1));
     }

@@ -26,6 +26,7 @@ export default function Page(){
             .then((res) => {
                 if (res.ok) {
                     localStorage.removeItem("orderId");
+                    localStorage.removeItem("cart");
                     handleAlert();
                 } else {
                     res.json().then((error) => {
@@ -40,7 +41,7 @@ export default function Page(){
     }
    },[])
     return (
-        <div>
+        <div className='h-screen'>
          
         </div>
     );
