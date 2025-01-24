@@ -50,7 +50,7 @@ const Header = () => {
     }
   }
   return (
-    <>
+    <header className="fixed top-0">
       {user==false && (
         <div
           id="signup-reminder"
@@ -261,7 +261,7 @@ const Header = () => {
           </div>
         </div>
       </nav>
-    </>
+    </header>
   );
 };
 export default dynamic(() => Promise.resolve(Header), { ssr: false });
