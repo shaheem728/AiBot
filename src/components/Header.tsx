@@ -50,7 +50,7 @@ const Header = () => {
     }
   }
   return (
-    <header className="fixed top-0">
+    <header className="fixed top-0 w-full">
       {user==false && (
         <div
           id="signup-reminder"
