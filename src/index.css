@@ -3,18 +3,48 @@
 body{
     @apply bg-gray-50 dark:bg-neutral-900 relative
 }
-
-.sideBar{
-  @apply fixed h-full w-auto md:w-[5vw] hover:w-1/6 bg-gray-200  dark:bg-neutral-800 flex justify-start
+h1{
+  @apply flex justify-center text-3xl font-bold text-gray-900 dark:text-white
 }
-.menu{
-  @apply absolute h-[5vh] w-[5vw] text-white dark:text-neutral-900 top-10 left-5 md:left-0
+.sideBar{
+  @apply fixed h-full w-14 md:w-[5vw] hover:w-1/6 bg-gray-200  dark:bg-neutral-800 flex justify-start
+}
+.home-menu{
+  @apply  h-[5vh] w-[5vw] text-white dark:text-gray-500 
+}
+.menu-button{
+  @apply absolute top-10  left-5 md:left-0 z-30
 }
 .btn{
-  @apply absolute h-[5vh] w-[5vw] text-white dark:text-neutral-900 top-40 left-5 md:left-0
+  @apply mx-5 md:mx-0 h-10 w-10 md:h-[5vh] md:w-[5vw] text-white dark:text-gray-500 my-40
+}
+.content{
+  @apply absolute left-32  lg:left-[30em]  top-[15em]
 }
 
-input[type="text"] {
-  @apply rounded-full p-5 min-w-2xl h-auto  bg-gray-200  dark:bg-neutral-800 border-2 border-gray-400 dark:border-amber-50
+.chat{
+  @apply  my-40 flex justify-center
+}
+
+.search{
+  @apply flex justify-between items-center rounded-full  w-auto md:min-w-2xl h-12  bg-gray-200  dark:bg-neutral-800 border-2 border-gray-400 dark:border-amber-50
          text-gray-500
+}
+input{
+  @apply border-none
+}
+input[type="text"] {
+  @apply w-full h-full
+}
+.option,.submit{
+  @apply  text-black dark:text-white mx-2
+}
+.option:hover{
+  @apply bg-gray-200  dark:bg-gray-700 p-2 rounded-full
+}
+.submit{
+  @apply bg-gray-200  dark:bg-gray-700 p-2 rounded-full
+}
+.submit:hover{
+  @apply bg-gray-300  dark:bg-gray-800
 }
