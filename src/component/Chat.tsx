@@ -2,7 +2,15 @@ import React from 'react'
 
 const Chat = () => {
   return (
-    <div>Chat</div>
+    <section className='chat'>
+      <div className='user'>
+        hi
+      </div>
+      <div className='bot'>
+      Hi there! 
+      </div>
+
+    </section>
   )
 }
 

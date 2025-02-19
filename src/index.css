@@ -22,29 +22,62 @@ h1{
   @apply absolute left-32  lg:left-[30em]  top-[15em]
 }
 
+.search{
+  @apply  absolute -bottom-96  flex justify-center
+}
 .chat{
-  @apply  my-40 flex justify-center
+  @apply h-auto max-w-2xl relative
+}
+.user{
+  @apply absolute right-1 rounded-s-full rounded-b-full p-2
+}
+.bot{
+  @apply absolute mt-5 left-1  p-2 rounded-e-full rounded-b-full
+}
+.user,.bot{
+  @apply  h-auto w-auto bg-gray-200  dark:bg-neutral-800 text-black dark:text-white
+}
+.search-box{
+  @apply flex items-center rounded-full  w-auto md:min-w-2xl h-12 
+}
+.search-box,.file-box{
+  @apply  bg-gray-200  dark:bg-neutral-900 border-2 border-gray-400 
+  text-gray-500
+}
+.inputForm{
+  @apply flex w-full h-auto
 }
 
-.search{
-  @apply flex justify-between items-center rounded-full  w-auto md:min-w-2xl h-12  bg-gray-200  dark:bg-neutral-800 border-2 border-gray-400 dark:border-amber-50
-         text-gray-500
-}
-input{
-  @apply border-none
-}
 input[type="text"] {
-  @apply w-full h-full
+  @apply w-full h-full border-none outline-none text-lg 
 }
 .option,.submit{
-  @apply  text-black dark:text-white mx-2
+  @apply  text-black dark:text-white mx-2 p-2
 }
 .option:hover{
-  @apply bg-gray-200  dark:bg-gray-700 p-2 rounded-full
+  @apply bg-gray-300  dark:bg-gray-700 rounded-full
 }
 .submit{
   @apply bg-gray-200  dark:bg-gray-700 p-2 rounded-full
 }
 .submit:hover{
   @apply bg-gray-300  dark:bg-gray-800
+}
+.file-box{
+  @apply  h-20 w-36 rounded-lg mb-1
+}
+.upload{
+  @apply  text-sky-500 mt-2
+}
+.generate{
+  @apply   text-green-500 
+}
+.upload,.generate{
+  @apply flex justify-center items-center h-7 w-full 
+}
+.upload:hover,.generate:hover{
+  @apply  dark:bg-gray-700  bg-gray-300 
+}
+.primary-text{
+  @apply text-gray-900 dark:text-gray-500 text-sm
 }
