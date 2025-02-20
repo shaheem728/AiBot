@@ -19,14 +19,14 @@ h1{
   @apply mx-5 md:mx-0 h-10 w-10 md:h-[5vh] md:w-[5vw] text-white dark:text-gray-500 my-40
 }
 .content{
-  @apply absolute left-32  lg:left-[30em]  top-[15em]
+  @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[15em]
 }
 
 .search{
   @apply  absolute -bottom-96  flex justify-center
 }
 .chat{
-  @apply h-auto max-w-2xl relative
+  @apply h-auto max-w-2xl relative bg-amber-300
 }
 .user{
   @apply absolute right-1 rounded-s-full rounded-b-full p-2
@@ -67,13 +67,13 @@ input[type="text"] {
   @apply  h-20 w-36 rounded-lg mb-1
 }
 .upload{
-  @apply  text-sky-500 mt-2
+  @apply   text-green-500  mt-2
 }
 .generate{
-  @apply   text-green-500 
+  @apply   text-teal-400 
 }
 .upload,.generate{
-  @apply flex justify-center items-center h-7 w-full 
+  @apply flex p-2  h-7 w-full 
 }
 .upload:hover,.generate:hover{
   @apply  dark:bg-gray-700  bg-gray-300 
