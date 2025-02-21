@@ -1,17 +1,21 @@
 import React,{useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 const Chat = () => {
-  const { input } = useContext(UserContext)
+  const { showresult,prevUser } = useContext(UserContext)
   return (
     <section className='chat'>
       <div className='user'>
-        {
-          input
-        }
+        
+       <span>
+       {
+         prevUser.prompt
+       }
+        </span> 
       </div>
+      <img className={`${prevUser.imgUrl?'block':'hidden'}`} src={prevUser.imgUrl} alt=""/>
       <div className='bot'>
        {
-        input
+       showresult
        }
       </div>
 

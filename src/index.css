@@ -19,26 +19,36 @@ h1{
   @apply mx-5 md:mx-0 h-10 w-10 md:h-[5vh] md:w-[5vw] text-white dark:text-gray-500 my-40
 }
 .content{
-  @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[15em]
+  @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[10em]
 }
 
 .search{
   @apply  absolute -bottom-96  flex justify-center
 }
 .chat{
-  @apply h-auto max-w-2xl relative bg-amber-300
+  @apply min-h-44 max-w-2xl relative  mb-5  overflow-y-auto
+}
+/* img{
+  @apply w-20 h-20 rounded-md object-fill 
+} */
+.uploadImage{
+  @apply absolute w-14 h-10 rounded-md object-fill mb-10 ms-5
 }
 .user{
-  @apply absolute right-1 rounded-s-full rounded-b-full p-2
+  @apply absolute right-1 rounded-s-full rounded-b-full  bg-gray-200   dark:bg-neutral-800
 }
+
 .bot{
-  @apply absolute mt-5 left-1  p-2 rounded-e-full rounded-b-full
+  @apply absolute mt-10 left-1  
 }
 .user,.bot{
-  @apply  h-auto w-auto bg-gray-200  dark:bg-neutral-800 text-black dark:text-white
+  @apply  h-auto w-auto text-pretty p-5  text-black dark:text-white
 }
-.search-box{
+/* .search-box{
   @apply flex items-center rounded-full  w-auto md:min-w-2xl h-12 
+} */
+.search-box{
+  @apply  flex rounded-lg  w-auto md:min-w-2xl h-32 p-2
 }
 .search-box,.file-box{
   @apply  bg-gray-200  dark:bg-neutral-900 border-2 border-gray-400 
