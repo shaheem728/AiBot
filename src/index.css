@@ -28,29 +28,32 @@ h1{
 .chat{
   @apply min-h-44 max-w-2xl relative  mb-5  overflow-y-auto
 }
-/* img{
-  @apply w-20 h-20 rounded-md object-fill 
-} */
-.uploadImage{
-  @apply absolute w-14 h-10 rounded-md object-fill mb-10 ms-5
+.uploadImage,.chatimg{
+  @apply w-20 h-20 rounded-md object-fill m-3
 }
 .user{
-  @apply absolute right-1 rounded-s-full rounded-b-full  bg-gray-200   dark:bg-neutral-800
+  @apply absolute right-1  
+}
+.promptText{
+  @apply rounded-s-full rounded-b-full  bg-gray-200 p-5  dark:bg-neutral-800
 }
 
 .bot{
   @apply absolute mt-10 left-1  
 }
 .user,.bot{
-  @apply  h-auto w-auto text-pretty p-5  text-black dark:text-white
+  @apply  h-auto w-auto text-pretty   text-black dark:text-white
+}
+.chatBox{
+  @apply w-auto h-auto rounded-3xl
+}
+.search-box{
+  @apply flex items-center   w-auto md:min-w-2xl h-12 
 }
 /* .search-box{
-  @apply flex items-center rounded-full  w-auto md:min-w-2xl h-12 
-} */
-.search-box{
   @apply  flex rounded-lg  w-auto md:min-w-2xl h-32 p-2
-}
-.search-box,.file-box{
+} */
+.chatBox,.file-box{
   @apply  bg-gray-200  dark:bg-neutral-900 border-2 border-gray-400 
   text-gray-500
 }

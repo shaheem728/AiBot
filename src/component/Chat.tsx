@@ -5,14 +5,14 @@ const Chat = () => {
   return (
     <section className='chat'>
       <div className='user'>
-        
-       <span>
+      <img className={`chatimg ${prevUser.imgUrl?'block':'hidden'}`} src={prevUser.imgUrl} alt=""/>
+
+       <div className='promptText'>
        {
          prevUser.prompt
        }
-        </span> 
+        </div> 
       </div>
-      <img className={`${prevUser.imgUrl?'block':'hidden'}`} src={prevUser.imgUrl} alt=""/>
       <div className='bot'>
        {
        showresult

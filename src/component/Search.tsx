@@ -105,10 +105,11 @@ const Search = () => {
         <span className='primary-text'>Generate Image</span>
       </div>
     </div>  
-    <div className="search-box">
+    <div className='chatBox'>
     {
         uploadImage? <img className='uploadImage' src={uploadImage} alt=''/>: ''
       }
+    <div className="search-box">
       <button className='option'
       onClick={()=>{setOpen(!open)}}
       ><FaPlus /></button>
@@ -126,6 +127,7 @@ const Search = () => {
         ><IoSend/></button>
       }
       </form> 
+    </div>
     </div>
     </section>
   )
