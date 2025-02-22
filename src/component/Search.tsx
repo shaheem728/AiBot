@@ -4,28 +4,51 @@ import { IoSend } from "react-icons/io5";
 import { UserContext} from '../context/UserContext';
 import { RiImageAiLine } from "react-icons/ri";
 import { RiImageAddLine } from "react-icons/ri";
-const {VITE_API_KEY} = import.meta.env
+const {VITE_API_KEY,VITE_TOKEN} = import.meta.env
 const API_URL =`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${VITE_API_KEY}`
 const Search = () => {
   const [open,setOpen] =useState<boolean>(false)
   const [uploadImage,setUploadImage] = useState<string>('');
+  const [generateImage,setGenerateImage] = useState<string>('');
   const {
     user,
     setUser,
     prevUser,
     setStartChat,
     setShowResult,
+    setGenerateImageResult,
     input,
     setInput,
   }  = useContext(UserContext);
  async function handleSubmit() {
   setStartChat(true)
   setShowResult('')
+  setUploadImage('')
   prevUser.data = user.data;
   prevUser.mime_type = user.mime_type;
   prevUser.imgUrl = user.imgUrl;
   prevUser.prompt=input
-      try{
+  if(generateImage =="generate"){
+   try{
+    const response = await fetch(
+      "https://router.huggingface.co/hf-inference/models/ZB-Tech/Text-to-Image",
+      {
+        headers: {
+          Authorization: `Bearer ${VITE_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({"inputs":prevUser.prompt}),
+      }
+    );
+    const result = await response.blob();
+    setGenerateImageResult(URL.createObjectURL(result))
+    setGenerateImage('')
+   }catch{
+    console.log("not respose from huggingface")
+   }
+  }else{
+    try{
       const response = await fetch(API_URL,{
         method: 'POST',
         headers: {
@@ -51,6 +74,7 @@ const Search = () => {
       let res = await response.json()
       let data = res.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
       setShowResult(data)
+      setGenerateImage('')
       setUser(
         {
          data: null,
@@ -62,12 +86,13 @@ const Search = () => {
     }catch{
         console.log("not response")
     }
+  }
+      
  } 
  function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
   const file = e.target.files ? e.target.files[0] : null;
   if (file) {
     setUploadImage(URL.createObjectURL(file))
-    setStartChat(true)
     const reader = new FileReader();
     reader.onload = (event) => {
       const result = event.target?.result;
@@ -89,6 +114,7 @@ const Search = () => {
     console.log('No file selected');
   }
 }
+
   return (
     <section>
       <input type='file' accept='image/*' hidden id='inputImg' onChange={handleImage}  />
@@ -96,11 +122,15 @@ const Search = () => {
       <div className='upload'onClick={()=>{
         document.getElementById("inputImg")?.click()
         setOpen(!open)
+        setGenerateImage('')
       }}>
         <RiImageAddLine/>
         <span className='primary-text'>Upload Image</span>
       </div>
-      <div className='generate'>
+      <div className='generate' onClick={()=>{
+        setOpen(!open)
+        setGenerateImage('generate')
+      }}>
         <RiImageAiLine/>
         <span className='primary-text'>Generate Image</span>
       </div>
@@ -112,7 +142,9 @@ const Search = () => {
     <div className="search-box">
       <button className='option'
       onClick={()=>{setOpen(!open)}}
-      ><FaPlus /></button>
+      >{generateImage?generateImage =="generate"?
+        <RiImageAiLine className='text-teal-400 '/>:<FaPlus />:<FaPlus />
+      }</button>
       <form className="inputForm" onSubmit={(e)=>{
         e.preventDefault()
         if(input){

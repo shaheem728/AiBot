@@ -1,5 +1,4 @@
 import { useState,useContext } from 'react'
-// import { token } from './action/api'
 import SideBar from "./component/SideBar"
 import Search from "./component/Search"
 import Chat from './component/Chat';
@@ -22,7 +21,7 @@ function App() {
     </button>
     <div className="content">
     {
-      startChat ? <Chat/> :  <h1>Hello,Shaheem</h1> 
+      startChat ? <Chat/> :  <h1 className='mt-10'>Hello,Shaheem</h1> 
     }   
     <div className="search">
      <Search/>

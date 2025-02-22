@@ -1,25 +1,31 @@
 import React,{useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 const Chat = () => {
-  const { showresult,prevUser } = useContext(UserContext)
+const { showresult,prevUser,generateImageresult } = useContext(UserContext)
   return (
-    <section className='chat'>
-      <div className='user'>
-      <img className={`chatimg ${prevUser.imgUrl?'block':'hidden'}`} src={prevUser.imgUrl} alt=""/>
-
-       <div className='promptText'>
-       {
-         prevUser.prompt
-       }
-        </div> 
-      </div>
-      <div className='bot'>
-       {
-       showresult
-       }
-      </div>
-
-    </section>
+    <>
+    <div className="chat">
+      <div className="h-full w-full m-2 p-20 ">
+    {
+      prevUser.imgUrl?<div className='relative h-20  m-4 w-full'>
+      <img className='chatimg' src={prevUser.imgUrl} alt='user' />
+      </div>:''
+    }
+     <div className='h-auto w-full relative'>
+      <span className='promptText'>
+      {
+        prevUser.prompt
+      }
+      </span>
+     </div>
+     </div>
+     <div className='bot'>
+    {
+      showresult?showresult:generateImageresult?<img className='generateImage' src={generateImageresult}/>:''
+    }
+    </div>
+    </div>
+    </>
   )
 }
 

@@ -16,6 +16,8 @@ interface UserContextType {
   setInput: React.Dispatch<React.SetStateAction<string>>;
   showresult: string;
   setShowResult: React.Dispatch<React.SetStateAction<string>>;
+  generateImageresult: string;
+  setGenerateImageResult: React.Dispatch<React.SetStateAction<string>>;
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
   prevUser: User;
@@ -34,6 +36,7 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
   const [startChat, setStartChat] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
   const [showresult,setShowResult] = useState<string>('');
+  const [generateImageresult,setGenerateImageResult] = useState<string>('');
   const [user, setUser] = useState<User>({
     data: null,
     mime_type: null,
@@ -56,6 +59,8 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
         setInput,
         showresult,
         setShowResult,
+        generateImageresult,
+        setGenerateImageResult,
         user,
         setUser,
         prevUser,

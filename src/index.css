@@ -19,30 +19,32 @@ h1{
   @apply mx-5 md:mx-0 h-10 w-10 md:h-[5vh] md:w-[5vw] text-white dark:text-gray-500 my-40
 }
 .content{
-  @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[10em]
+  @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[5em]
 }
 
 .search{
   @apply  absolute -bottom-96  flex justify-center
 }
 .chat{
-  @apply min-h-44 max-w-2xl relative  mb-5  overflow-y-auto
+  @apply h-auto w-full  text-black dark:text-white 
 }
 .uploadImage,.chatimg{
   @apply w-20 h-20 rounded-md object-fill m-3
 }
-.user{
-  @apply absolute right-1  
+.generateImage{
+  @apply w-40 h-40 rounded-md object-fill
 }
+.chatimg{
+  @apply  absolute right-1 
+}
+
+
 .promptText{
-  @apply rounded-s-full rounded-b-full  bg-gray-200 p-5  dark:bg-neutral-800
+  @apply absolute right-1 rounded-s-full rounded-b-full  bg-gray-200 p-5  dark:bg-neutral-800
 }
 
 .bot{
-  @apply absolute mt-10 left-1  
-}
-.user,.bot{
-  @apply  h-auto w-auto text-pretty   text-black dark:text-white
+  @apply  h-auto w-xl text-pretty   text-black dark:text-white
 }
 .chatBox{
   @apply w-auto h-auto rounded-3xl
@@ -50,9 +52,6 @@ h1{
 .search-box{
   @apply flex items-center   w-auto md:min-w-2xl h-12 
 }
-/* .search-box{
-  @apply  flex rounded-lg  w-auto md:min-w-2xl h-32 p-2
-} */
 .chatBox,.file-box{
   @apply  bg-gray-200  dark:bg-neutral-900 border-2 border-gray-400 
   text-gray-500
