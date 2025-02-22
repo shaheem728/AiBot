@@ -20,6 +20,7 @@ const { showresult,prevUser,generateImageresult } = useContext(UserContext)
      </div>
      </div>
      <div className='bot'>
+     <img className='h-10' src="../public/ai-bot.svg" alt="" />
     {
       showresult?showresult:generateImageresult?<img className='generateImage' src={generateImageresult}/>:''
     }
