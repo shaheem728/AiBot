@@ -5,7 +5,7 @@ import Chat from './component/Chat';
 import { UserContext} from './context/UserContext';
 import { CgMenuGridO } from "react-icons/cg"; 
 function App() {
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(true)
   const { startChat} = useContext(UserContext)
   return (
     <section className="staic">
@@ -19,9 +19,13 @@ function App() {
     >
     <CgMenuGridO className="home-menu"/>
     </button>
+    <div className="header">
+          <span className="Bot-text"><span className='text-green-400'>Ai</span>Bot</span>
+      </div>
     <div className="content">
     {
-      startChat ? <Chat/> :  <h1 className='mt-10'>Hello,Shaheem</h1> 
+      startChat ? <Chat/> :  <div className="intro"><p><span>Hello, Dev.</span></p>
+      <p className='intro-text'>How can I help you today?</p></div>
     }   
     <div className="search">
      <Search/>

@@ -151,7 +151,7 @@ const Search = () => {
           handleSubmit()
         }
       }}>
-      <input type="text" placeholder="Ask AI-BOT" value={input} onChange={(e)=>setInput(e.target.value)}
+      <input type="text" placeholder="Ask AiBot" value={input} onChange={(e)=>setInput(e.target.value)}
       />
       {
         input &&  <button

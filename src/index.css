@@ -1,27 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:Outfit;
+}
 body{
     @apply bg-gray-50 dark:bg-neutral-900 relative
 }
 h1{
   @apply flex justify-center text-3xl font-bold text-gray-900 dark:text-white
 }
+.intro{
+  @apply  text-3xl font-medium 
+}
+.intro span{
+  background: -webkit-linear-gradient(10deg,#57e5a0, #00FF00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .sideBar{
-  @apply fixed h-full w-14 md:w-[5vw] hover:w-1/6 bg-gray-200  dark:bg-neutral-800 flex justify-start
+  @apply fixed h-full w-20 hover:w-40 md:w-[5vw] md:hover:w-1/6 bg-gray-200  dark:bg-neutral-800 flex justify-start
+}
+.sideBar-items{
+  @apply  w-full mt-20 flex flex-col  px-4 pt-10
+}
+.recent{
+  @apply w-full h-full overflow-y-scroll mt-5
+}
+.new-chat{
+  @apply bg-gray-700 h-10 gap-3 rounded-full flex justify-center items-center
+}
+.new-chat span,.recent p,.intro-text{
+  @apply text-black dark:text-white  text-sm md:text-lg
+}
+.plus-icon{
+  @apply text-white dark:text-gray-500 text-xl 
 }
 .home-menu{
-  @apply  h-[5vh] w-[5vw] text-white dark:text-gray-500 
+  @apply  h-10 w-10  text-white dark:text-gray-500 
 }
 .menu-button{
-  @apply absolute top-10  left-5 md:left-0 z-30
+  @apply absolute top-10  left-4 md:left-3 z-30
+}
+.header{
+  @apply absolute top-10  left-20  z-30 flex items-center space-x-2 
+}
+.Bot-icon{
+  @apply w-8 h-8  text-green-500
+}
+.Bot-text{
+  @apply text-2xl text-black dark:text-white  font-bold
 }
 .btn{
-  @apply mx-5 md:mx-0 h-10 w-10 md:h-[5vh] md:w-[5vw] text-white dark:text-gray-500 my-40
+  @apply mx-10 md:mx-0 h-7 w-7   text-white dark:text-gray-500 my-40
 }
 .content{
   @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[5em]
 }
-
 .search{
   @apply  absolute -bottom-96  flex justify-center
 }
@@ -37,12 +75,9 @@ h1{
 .chatimg{
   @apply  absolute right-1 
 }
-
-
 .promptText{
   @apply absolute right-1 rounded-s-full rounded-b-full  bg-gray-200 p-5  dark:bg-neutral-800
 }
-
 .bot{
   @apply  h-auto w-xl text-pretty   text-black dark:text-white
 }
@@ -54,7 +89,7 @@ h1{
 }
 .chatBox,.file-box{
   @apply  bg-gray-200  dark:bg-neutral-900 border-2 border-gray-400 
-  text-gray-500
+  text-black dark:text-white
 }
 .inputForm{
   @apply flex w-full h-auto
