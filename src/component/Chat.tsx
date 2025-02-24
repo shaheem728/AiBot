@@ -7,7 +7,7 @@ const { showresult,prevUser,generateImageresult } = useContext(UserContext)
     <div className="chat">
       <div className="h-full w-full m-2 p-20 ">
     {
-      prevUser.imgUrl?<div className='relative h-20  m-4 w-full'>
+      prevUser.imgUrl?<div className='relative h-25  m-4 w-full'>
       <img className='chatimg' src={prevUser.imgUrl} alt='user' />
       </div>:''
     }

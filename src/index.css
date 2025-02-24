@@ -19,13 +19,13 @@
   background-color: gray;
 }
 body{
-    @apply bg-gray-50 dark:bg-neutral-900 relative
+    @apply bg-gray-50 dark:bg-neutral-900 relative overflow-x-hidden
 }
 h1{
   @apply flex justify-center text-3xl font-bold text-gray-900 dark:text-white
 }
 .intro{
-  @apply  text-3xl font-medium 
+  @apply  text-4xl font-medium 
 }
 .intro span{
   background: -webkit-linear-gradient(10deg,#57e5a0, #00FF00);
@@ -33,7 +33,7 @@ h1{
   -webkit-text-fill-color: transparent;
 }
 .sideBar{
-  @apply fixed h-full w-20 hover:w-40 md:w-[5vw] md:hover:w-1/6 bg-gray-200  dark:bg-neutral-800 flex justify-start
+  @apply fixed h-full w-20 hover:w-40 md:w-[5vw] md:hover:w-1/6 bg-gray-400  dark:bg-neutral-800 flex justify-start
 }
 .sideBar-items{
   @apply  w-full mt-20 flex flex-col  px-4 pt-10
@@ -44,14 +44,17 @@ h1{
 .new-chat{
   @apply bg-gray-700 h-10 gap-3 rounded-full flex justify-center items-center
 }
-.new-chat span,.recent p,.intro-text{
+.new-chat span,.recent p{
   @apply text-black dark:text-white  text-sm md:text-lg
+}
+.intro-text{
+  @apply text-black dark:text-white  text-2xl font-bold mb-5
 }
 .plus-icon{
   @apply text-white dark:text-gray-500 text-xl 
 }
 .home-menu{
-  @apply  h-10 w-10  text-white dark:text-gray-500 
+  @apply  h-10 w-10 text-gray-500 
 }
 .menu-button{
   @apply absolute top-10  left-4 md:left-3 z-30
@@ -59,23 +62,35 @@ h1{
 .header{
   @apply absolute top-10  left-20  z-30 flex items-center space-x-2 
 }
+.bot{
+  @apply  h-auto w-xl text-pretty mt-7  text-black dark:text-white
+}
 .Bot-icon{
   @apply w-8 h-8  text-green-500
 }
 .Bot-text{
   @apply text-2xl text-black dark:text-white  font-bold
 }
-.btn{
-  @apply mx-10 md:mx-0 h-7 w-7   text-white dark:text-gray-500 my-40
-}
 .content{
   @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[5em]
 }
 .search{
-  @apply  absolute -bottom-96  flex justify-center
+  @apply  absolute min-h-20  md:top-[30em]  mx-3 my-7  flex justify-center
 }
 .chat{
   @apply h-auto w-full  text-black dark:text-white 
+}
+.features{
+  @apply grid grid-cols-1 md:grid-cols-3 md:gap-6 gap-2
+}
+.features-box{
+  @apply  bg-slate-800/40  backdrop-blur-sm p-2 md:p-6 rounded-2xl border border-slate-700/50
+}
+.features-icon{
+  @apply w-12 h-12 rounded-xl flex items-center justify-center md:mb-4
+}
+.features-text{
+  @apply text-xl font-semibold text-gray-700 dark:text-white mb-2 
 }
 .uploadImage,.chatimg{
   @apply w-20 h-20 rounded-md object-fill m-3

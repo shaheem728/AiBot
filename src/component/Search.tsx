@@ -117,6 +117,7 @@ const Search = () => {
 
   return (
     <section>
+
       <input type='file' accept='image/*' hidden id='inputImg' onChange={handleImage}  />
     <div className={`file-box ${open?'':'hidden'}`}>
       <div className='upload'onClick={()=>{
