@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React,{useContext,useState} from 'react'
 import { UserContext } from '../context/UserContext'
 const Chat = () => {
 const { showresult,prevUser,generateImageresult } = useContext(UserContext)
@@ -21,8 +21,13 @@ const { showresult,prevUser,generateImageresult } = useContext(UserContext)
      </div>
      <div className='bot'>
      <img className='h-10' src="../public/AiBot.svg" alt="" />
-    {
-      showresult?showresult:generateImageresult?<img className='generateImage' src={generateImageresult}/>:''
+     {
+     showresult?showresult:generateImageresult?
+      <img className='generateImage' src={generateImageresult}/>:<div className='loader'>
+      <hr />
+      <hr />
+      <hr />
+    </div>
     }
     </div>
     </div>

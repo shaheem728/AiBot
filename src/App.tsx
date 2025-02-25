@@ -21,7 +21,7 @@ function App() {
     <CgMenuGridO className="home-menu"/>
     </button>
     <div className="header">
-          <span className="Bot-text"><span className='text-green-400'>Ai</span>Bot</span>
+          <span className="Bot-text"><span className='text-lime-400'>Ai</span>Bot</span>
       </div>
     <div className="content">
     {

@@ -63,7 +63,7 @@ h1{
   @apply absolute top-10  left-20  z-30 flex items-center space-x-2 
 }
 .bot{
-  @apply  h-auto w-xl text-pretty mt-7  text-black dark:text-white
+  @apply  h-auto w-xl text-pretty mt-20  text-black dark:text-white
 }
 .Bot-icon{
   @apply w-8 h-8  text-green-500
@@ -95,6 +95,30 @@ h1{
 .uploadImage,.chatimg{
   @apply w-20 h-20 rounded-md object-fill m-3
 }
+.loader{
+  @apply w-full flex flex-col gap-5 
+}
+
+.loader hr {
+  border-radius: 4px;
+  border: none;
+  background: linear-gradient(to right, #6c6b6b, #ffff, #6c6b6b);
+  height: 20px;
+  background-size: 200% 100%;
+  animation: skeleton 1.5s infinite linear;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+
+
 .generateImage{
   @apply w-40 h-40 rounded-md object-fill
 }
