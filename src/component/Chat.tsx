@@ -5,7 +5,7 @@ const { showresult,prevUser,generateImageresult } = useContext(UserContext)
   return (
     <>
     <div className="chat">
-      <div className="h-full w-full m-2 p-20 ">
+      <div className="h-auto w-auto m-3 p-20 ">
     {
       prevUser.imgUrl?<div className='relative h-25  m-4 w-full'>
       <img className='chatimg' src={prevUser.imgUrl} alt='user' />
@@ -22,7 +22,7 @@ const { showresult,prevUser,generateImageresult } = useContext(UserContext)
      <div className='bot'>
      <img className='h-10' src="../public/AiBot.svg" alt="" />
      {
-     showresult?showresult:generateImageresult?
+     showresult?<p className='md:w-full w-70 '>{showresult}</p>:generateImageresult?
       <img className='generateImage' src={generateImageresult}/>:<div className='loader'>
       <hr />
       <hr />

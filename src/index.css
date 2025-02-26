@@ -63,11 +63,9 @@ h1{
   @apply absolute top-10  left-20  z-30 flex items-center space-x-2 
 }
 .bot{
-  @apply  h-auto w-xl text-pretty mt-20  text-black dark:text-white
+  @apply  h-auto w-xl text-pretty mt-5  text-black dark:text-white
 }
-.Bot-icon{
-  @apply w-8 h-8  text-green-500
-}
+
 .Bot-text{
   @apply text-2xl text-black dark:text-white  font-bold
 }
@@ -78,7 +76,10 @@ h1{
   @apply  absolute min-h-20  md:top-[30em]  mx-3 my-7  flex justify-center
 }
 .chat{
-  @apply h-auto w-full  text-black dark:text-white 
+  @apply h-96  w-full  text-black dark:text-white overflow-y-scroll overflow-x-hidden
+}
+.chat::-webkit-scrollbar {
+  display: none;
 }
 .features{
   @apply grid grid-cols-1 md:grid-cols-3 md:gap-6 gap-2
@@ -96,7 +97,7 @@ h1{
   @apply w-20 h-20 rounded-md object-fill m-3
 }
 .loader{
-  @apply w-full flex flex-col gap-5 
+  @apply w-full flex flex-col gap-5 mt-5
 }
 
 .loader hr {
@@ -175,6 +176,6 @@ input[type="text"] {
 .upload:hover,.generate:hover{
   @apply  dark:bg-gray-700  bg-gray-300 
 }
-.primary-text{
+.primary-text,.recent-chat-item{
   @apply text-gray-900 dark:text-gray-500 text-sm
 }

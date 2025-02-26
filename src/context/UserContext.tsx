@@ -8,6 +8,12 @@ interface User {
   prompt?: null | string;
 }
 
+// Define the type for a chat object
+interface Chat {
+  chat: string;
+  type: string;
+}
+
 // Define the type for the context value
 interface UserContextType {
   startChat: boolean;
@@ -22,6 +28,10 @@ interface UserContextType {
   setUser: React.Dispatch<React.SetStateAction<User>>;
   prevUser: User;
   setPrevUser: React.Dispatch<React.SetStateAction<User>>;
+  generateImage:string
+  setGenerateImage:React.Dispatch<React.SetStateAction<string>>;
+  recentChat: Chat[];
+  setRecentChat: React.Dispatch<React.SetStateAction<Chat[]>>;
 }
 
 // Define the type for provider props
@@ -35,20 +45,25 @@ const UserContext = createContext<UserContextType | any>(null);
 const UserProvider: React.FC<ProviderProps> = ({ children }) => {
   const [startChat, setStartChat] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
-  const [showresult,setShowResult] = useState<string>('');
-  const [generateImageresult,setGenerateImageResult] = useState<string>('');
+  const [showresult, setShowResult] = useState<string>('');
+  const [generateImageresult, setGenerateImageResult] = useState<string>('');
+  const [generateImage,setGenerateImage] = useState<string>('');
   const [user, setUser] = useState<User>({
     data: null,
     mime_type: null,
     imgUrl: null,
     prompt: null,
   });
+
   const [prevUser, setPrevUser] = useState<User>({
     data: null,
     mime_type: null,
     imgUrl: null,
     prompt: null,
   });
+
+  // Correctly define recentChat as an array of Chat objects
+  const [recentChat, setRecentChat] = useState<Chat[]>([]);
 
   return (
     <UserContext.Provider
@@ -65,6 +80,10 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
         setUser,
         prevUser,
         setPrevUser,
+        generateImage,
+        setGenerateImage,
+        recentChat,
+        setRecentChat,
       }}
     >
       {children}

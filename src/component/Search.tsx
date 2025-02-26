@@ -9,7 +9,6 @@ const API_URL =`https://generativelanguage.googleapis.com/v1beta/models/gemini-1
 const Search = () => {
   const [open,setOpen] =useState<boolean>(false)
   const [uploadImage,setUploadImage] = useState<string>('');
-  const [generateImage,setGenerateImage] = useState<string>('');
   const {
     user,
     setUser,
@@ -19,6 +18,10 @@ const Search = () => {
     setGenerateImageResult,
     input,
     setInput,
+    recentChat,
+    setRecentChat,
+    generateImage,
+    setGenerateImage
   }  = useContext(UserContext);
  async function handleSubmit() {
   setStartChat(true)
@@ -28,8 +31,9 @@ const Search = () => {
   prevUser.mime_type = user.mime_type;
   prevUser.imgUrl = user.imgUrl;
   prevUser.prompt=input
-  if(generateImage =="generate"){
+  if(generateImage =="generateImage"){
    try{
+    setRecentChat([...recentChat, { chat:input, type: "generateImage" }]);
     const response = await fetch(
       "https://router.huggingface.co/hf-inference/models/ZB-Tech/Text-to-Image",
       {
@@ -44,11 +48,13 @@ const Search = () => {
     const result = await response.blob();
     setGenerateImageResult(URL.createObjectURL(result))
     setGenerateImage('')
+    setInput('')
    }catch{
     console.log("not respose from huggingface")
    }
   }else{
     try{
+      setRecentChat([...recentChat, { chat:input, type: "text" }]);
       const response = await fetch(API_URL,{
         method: 'POST',
         headers: {
@@ -73,7 +79,8 @@ const Search = () => {
       })
       let res = await response.json()
       let data = res.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
-      setShowResult(data)
+      let data1 = data.split("*").join()
+      setShowResult(data1)
       setGenerateImage('')
       setUser(
         {
@@ -83,6 +90,7 @@ const Search = () => {
          prompt:null,
         }
       )
+      setInput('')
     }catch{
         console.log("not response")
     }
@@ -117,7 +125,6 @@ const Search = () => {
 
   return (
     <section>
-
       <input type='file' accept='image/*' hidden id='inputImg' onChange={handleImage}  />
     <div className={`file-box ${open?'':'hidden'}`}>
       <div className='upload'onClick={()=>{
@@ -130,7 +137,7 @@ const Search = () => {
       </div>
       <div className='generate' onClick={()=>{
         setOpen(!open)
-        setGenerateImage('generate')
+        setGenerateImage('generateImage')
       }}>
         <RiImageAiLine/>
         <span className='primary-text'>Generate Image</span>
@@ -143,7 +150,7 @@ const Search = () => {
     <div className="search-box">
       <button className='option'
       onClick={()=>{setOpen(!open)}}
-      >{generateImage?generateImage =="generate"?
+      >{generateImage?generateImage =="generateImage"?
         <RiImageAiLine className='text-teal-400 '/>:<FaPlus />:<FaPlus />
       }</button>
       <form className="inputForm" onSubmit={(e)=>{
