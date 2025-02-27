@@ -18,6 +18,8 @@ interface Chat {
 interface UserContextType {
   startChat: boolean;
   setStartChat: React.Dispatch<React.SetStateAction<boolean>>;
+  startRecentChat: boolean;
+  setStartRecentChat: React.Dispatch<React.SetStateAction<boolean>>;
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   showresult: string;
@@ -32,6 +34,8 @@ interface UserContextType {
   setGenerateImage:React.Dispatch<React.SetStateAction<string>>;
   recentChat: Chat[];
   setRecentChat: React.Dispatch<React.SetStateAction<Chat[]>>;
+  recentInput:string;
+  setRecentInput:React.Dispatch<React.SetStateAction<string>>
 }
 
 // Define the type for provider props
@@ -44,6 +48,7 @@ const UserContext = createContext<UserContextType | any>(null);
 
 const UserProvider: React.FC<ProviderProps> = ({ children }) => {
   const [startChat, setStartChat] = useState<boolean>(false);
+  const [startRecentChat, setStartRecentChat] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
   const [showresult, setShowResult] = useState<string>('');
   const [generateImageresult, setGenerateImageResult] = useState<string>('');
@@ -64,12 +69,14 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
 
   // Correctly define recentChat as an array of Chat objects
   const [recentChat, setRecentChat] = useState<Chat[]>([]);
-
+  const[recentInput,setRecentInput]= useState<string>('');
   return (
     <UserContext.Provider
       value={{
         startChat,
         setStartChat,
+        startRecentChat, 
+        setStartRecentChat,
         input,
         setInput,
         showresult,
@@ -84,6 +91,8 @@ const UserProvider: React.FC<ProviderProps> = ({ children }) => {
         setGenerateImage,
         recentChat,
         setRecentChat,
+        recentInput,
+        setRecentInput
       }}
     >
       {children}

@@ -33,7 +33,7 @@ h1{
   -webkit-text-fill-color: transparent;
 }
 .sideBar{
-  @apply fixed h-full w-20 hover:w-40 md:w-[5vw] md:hover:w-1/6 bg-gray-400  dark:bg-neutral-800 flex justify-start
+  @apply fixed h-full z-10 w-20 hover:w-40 md:w-[5vw] md:hover:w-1/6 bg-gray-400  dark:bg-neutral-800 flex justify-start
 }
 .sideBar-items{
   @apply  w-full mt-20 flex flex-col  px-4 pt-10
@@ -73,10 +73,10 @@ h1{
   @apply absolute left-32 w-80 lg:w-2xl  lg:left-[30em]  top-[5em]
 }
 .search{
-  @apply  absolute min-h-20  md:top-[30em]  mx-3 my-7  flex justify-center
+  @apply  absolute min-h-20  md:top-[20em]  mx-3 my-7  flex justify-center
 }
 .chat{
-  @apply h-96  w-full  text-black dark:text-white overflow-y-scroll overflow-x-hidden
+  @apply h-[60vh]  w-full  text-black dark:text-white overflow-y-scroll overflow-x-hidden
 }
 .chat::-webkit-scrollbar {
   display: none;
@@ -136,7 +136,7 @@ h1{
   @apply w-auto h-auto rounded-3xl
 }
 .search-box{
-  @apply flex items-center   w-auto md:min-w-2xl h-12 
+  @apply flex items-center   w-auto md:min-w-[42vw] h-12 
 }
 .chatBox,.file-box{
   @apply  bg-gray-200  dark:bg-neutral-900 border-2 border-gray-400 
@@ -176,6 +176,9 @@ input[type="text"] {
 .upload:hover,.generate:hover{
   @apply  dark:bg-gray-700  bg-gray-300 
 }
-.primary-text,.recent-chat-item{
+.primary-text{
   @apply text-gray-900 dark:text-gray-500 text-sm
+}
+.recent-chat-item{
+  @apply text-gray-900 dark:text-white text-xl cursor-pointer
 }

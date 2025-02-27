@@ -1,4 +1,4 @@
-import React,{useContext,useState} from 'react'
+import {useContext} from 'react'
 import { UserContext } from '../context/UserContext'
 const Chat = () => {
 const { showresult,prevUser,generateImageresult } = useContext(UserContext)

@@ -1,12 +1,14 @@
 import {useState,useContext} from 'react'
 import { FaPlus } from "react-icons/fa";
 import { UserContext} from '../context/UserContext';
+import { FiMessageSquare } from "react-icons/fi";
 const SideBar = () => {
   const [extended,setExtended] = useState<boolean>(false)
   const {
     recentChat,
     setGenerateImage,
-    setInput
+    setRecentInput,
+    setStartRecentChat
   } = useContext(UserContext);
   return (
     <section className="sideBar" onMouseOver={()=>
@@ -27,9 +29,10 @@ const SideBar = () => {
               recentChat.map((item:any, index:number) => (
                 <li key={index} className="recent-chat-item" onClick={()=>{
                   setGenerateImage(item.type=="generateImage"?"generateImage":item.type),
-                  setInput(item.chat)
+                  setRecentInput(item.chat),
+                  setStartRecentChat(true)
                 }}>
-                  {item.chat.slice(0,18)}... 
+                <span className='flex items-center gap-2 '><FiMessageSquare /><p>{item.chat.slice(0,25)}...</p></span> 
                 </li>
               ))
             ) : (

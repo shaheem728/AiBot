@@ -1,4 +1,4 @@
-import {useContext,useState} from 'react'
+import {useContext,useEffect,useState} from 'react'
 import { FaPlus } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { UserContext} from '../context/UserContext';
@@ -7,13 +7,15 @@ import { RiImageAddLine } from "react-icons/ri";
 const {VITE_API_KEY,VITE_TOKEN} = import.meta.env
 const API_URL =`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${VITE_API_KEY}`
 const Search = () => {
-  const [open,setOpen] =useState<boolean>(false)
+  const [open,setOpen] = useState<boolean>(false)
   const [uploadImage,setUploadImage] = useState<string>('');
   const {
     user,
     setUser,
     prevUser,
     setStartChat,
+    startRecentChat,
+    setStartRecentChat,
     setShowResult,
     setGenerateImageResult,
     input,
@@ -21,19 +23,29 @@ const Search = () => {
     recentChat,
     setRecentChat,
     generateImage,
-    setGenerateImage
+    setGenerateImage,
+    recentInput,
+    setRecentInput
   }  = useContext(UserContext);
- async function handleSubmit() {
+  useEffect(()=>{
+   if(startRecentChat){
+    handleSubmit()
+   }
+  },[startRecentChat])
+  async function handleSubmit() {
   setStartChat(true)
   setShowResult('')
   setUploadImage('')
+  setStartRecentChat(false)
   prevUser.data = user.data;
   prevUser.mime_type = user.mime_type;
   prevUser.imgUrl = user.imgUrl;
-  prevUser.prompt=input
+  prevUser.prompt=input ||  recentInput
   if(generateImage =="generateImage"){
    try{
-    setRecentChat([...recentChat, { chat:input, type: "generateImage" }]);
+    if(input){
+      setRecentChat([...recentChat, { chat:input, type: "generateImage" }]);
+    }
     const response = await fetch(
       "https://router.huggingface.co/hf-inference/models/ZB-Tech/Text-to-Image",
       {
@@ -49,12 +61,16 @@ const Search = () => {
     setGenerateImageResult(URL.createObjectURL(result))
     setGenerateImage('')
     setInput('')
+    setRecentInput('')
    }catch{
     console.log("not respose from huggingface")
    }
   }else{
     try{
+      if(input){
       setRecentChat([...recentChat, { chat:input, type: "text" }]);
+      }
+      setGenerateImageResult("")
       const response = await fetch(API_URL,{
         method: 'POST',
         headers: {
@@ -81,7 +97,6 @@ const Search = () => {
       let data = res.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
       let data1 = data.split("*").join()
       setShowResult(data1)
-      setGenerateImage('')
       setUser(
         {
          data: null,
@@ -91,6 +106,7 @@ const Search = () => {
         }
       )
       setInput('')
+      setRecentInput('')
     }catch{
         console.log("not response")
     }
@@ -126,7 +142,7 @@ const Search = () => {
   return (
     <section>
       <input type='file' accept='image/*' hidden id='inputImg' onChange={handleImage}  />
-    <div className={`file-box ${open?'':'hidden'}`}>
+    <div className={`file-box ${open?'visible':'invisible'}`}>
       <div className='upload'onClick={()=>{
         document.getElementById("inputImg")?.click()
         setOpen(!open)
