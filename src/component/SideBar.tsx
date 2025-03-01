@@ -5,10 +5,9 @@ import { FiMessageSquare } from "react-icons/fi";
 const SideBar = () => {
   const [extended,setExtended] = useState<boolean>(false)
   const {
-    recentChat,
-    setGenerateImage,
-    setRecentInput,
-    setStartRecentChat
+    recentChats,
+    setStartRecentChat, 
+    setHandleRecentChat,
   } = useContext(UserContext);
   return (
     <section className="sideBar" onMouseOver={()=>
@@ -25,14 +24,13 @@ const SideBar = () => {
         <div className={`recent ${extended?'block':'hidden'}`}>
           <p>Recent</p>
           <ul>
-            {recentChat.length > 0 ? (
-              recentChat.map((item:any, index:number) => (
+            {recentChats.length > 0 ? (
+              recentChats.map((item:any, index:number) => (
                 <li key={index} className="recent-chat-item" onClick={()=>{
-                  setGenerateImage(item.type=="generateImage"?"generateImage":item.type),
-                  setRecentInput(item.chat),
+                  setHandleRecentChat([{chat:item.chat,type:item.type,data:item.data,mime_type:item.mime_type,imgUrl:item.imgUrl}])
                   setStartRecentChat(true)
                 }}>
-                <span className='flex items-center gap-2 '><FiMessageSquare /><p>{item.chat.slice(0,25)}...</p></span> 
+                <span className='flex items-center gap-2 '><FiMessageSquare /><p>{item.chat.slice(0,18)}...</p></span> 
                 </li>
               ))
             ) : (

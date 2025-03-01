@@ -9,27 +9,27 @@ const API_URL =`https://generativelanguage.googleapis.com/v1beta/models/gemini-1
 const Search = () => {
   const [open,setOpen] = useState<boolean>(false)
   const [uploadImage,setUploadImage] = useState<string>('');
+  const [generateImage,setGenerateImage] = useState<string>('');
+  const [input, setInput] = useState<string>('');
+  console.log(input)
   const {
     user,
     setUser,
     prevUser,
     setStartChat,
     startRecentChat,
+    handlerecentChat, 
+    setHandleRecentChat,
     setStartRecentChat,
     setShowResult,
     setGenerateImageResult,
-    input,
-    setInput,
-    recentChat,
-    setRecentChat,
-    generateImage,
-    setGenerateImage,
-    recentInput,
-    setRecentInput
+    recentChats,
+    setRecentChats,
   }  = useContext(UserContext);
   useEffect(()=>{
    if(startRecentChat){
     handleSubmit()
+    setUploadImage(handlerecentChat[0].imgUrl)
    }
   },[startRecentChat])
   async function handleSubmit() {
@@ -37,14 +37,15 @@ const Search = () => {
   setShowResult('')
   setUploadImage('')
   setStartRecentChat(false)
-  prevUser.data = user.data;
-  prevUser.mime_type = user.mime_type;
-  prevUser.imgUrl = user.imgUrl;
-  prevUser.prompt=input ||  recentInput
-  if(generateImage =="generateImage"){
+  const recentChatData = handlerecentChat.length > 0 ? handlerecentChat[0] : null;
+  prevUser.data = user.data || recentChatData?.data || null;
+  prevUser.mime_type = user.mime_type || recentChatData?.mime_type || null;
+  prevUser.imgUrl = user.imgUrl || recentChatData?.imgUrl || null;
+  prevUser.prompt = input || recentChatData?.chat || null;
+  if(generateImage == "generateImage" || handlerecentChat[0]?.type == "generateImage" ){
    try{
     if(input){
-      setRecentChat([...recentChat, { chat:input, type: "generateImage" }]);
+      setRecentChats([...recentChats, { chat:input, type: "generateImage", data:null,mime_type:null,imgUrl:null}]);
     }
     const response = await fetch(
       "https://router.huggingface.co/hf-inference/models/ZB-Tech/Text-to-Image",
@@ -59,16 +60,26 @@ const Search = () => {
     );
     const result = await response.blob();
     setGenerateImageResult(URL.createObjectURL(result))
-    setGenerateImage('')
+    if(response.ok){
+      setGenerateImage('')
     setInput('')
-    setRecentInput('')
+    setHandleRecentChat([{
+      chat:null,
+      type:null,
+      data:null,
+      mime_type:null,
+      imgUrl:null,
+    }])
+    return;
+    }
+   
    }catch{
     console.log("not respose from huggingface")
    }
   }else{
     try{
       if(input){
-      setRecentChat([...recentChat, { chat:input, type: "text" }]);
+      setRecentChats([...recentChats, { chat:input, type: "text", data:prevUser.data,mime_type:prevUser.mime_type,imgUrl:prevUser.imgUrl}]);
       }
       setGenerateImageResult("")
       const response = await fetch(API_URL,{
@@ -93,20 +104,30 @@ const Search = () => {
               }
         ),
       })
-      let res = await response.json()
-      let data = res.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
-      let data1 = data.split("*").join()
-      setShowResult(data1)
-      setUser(
-        {
-         data: null,
-         mime_type:null,
-         imgUrl:null,
-         prompt:null,
-        }
-      )
-      setInput('')
-      setRecentInput('')
+      if (response.ok){
+        let res = await response.json()
+        let data = res.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+        let data1 = data.split("*").join()
+        setShowResult(data1)
+        setUser(
+          {
+           data: null,
+           mime_type:null,
+           imgUrl:null,
+           prompt:null,
+          }
+        )
+        setInput('')
+        setHandleRecentChat([{
+          chat:null,
+          type:null,
+          data:null,
+          mime_type:null,
+          imgUrl:null,
+        }])
+        return;
+      }
+ 
     }catch{
         console.log("not response")
     }
