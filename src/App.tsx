@@ -10,7 +10,7 @@ function App() {
   const { startChat} = useContext(UserContext)
   return (
     <>
-    <div className={`absolute  left-0 ${toggle?'block':'hidden'}`}>
+    <div className={`absolute  left-0 ${toggle?'md:block hidden':'block md:hidden'}`}>
       <SideBar/>
     </div> 
     <button 
