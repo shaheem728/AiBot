@@ -68,7 +68,7 @@ function App() {
     <div className="search">
      <Search/>
     </div>
-    </div>  
+    </div>
     </>
   )
 }
