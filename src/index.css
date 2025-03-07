@@ -33,7 +33,7 @@ h1{
   -webkit-text-fill-color: transparent;
 }
 .sideBar{
-  @apply fixed h-full z-30  lg:w-[5vw] lg:hover:w-1/6 md:w-[9vw] md:hover:w-[50%] w-20 hover:w-40  bg-gray-400  dark:bg-neutral-800 flex justify-start
+  @apply fixed h-full z-30 w-20 hover:w-1/6 bg-gray-400  dark:bg-neutral-800 flex justify-start
 }
 .sideBar-items{
   @apply  w-full mt-20 flex flex-col  px-4 pt-10
@@ -63,7 +63,7 @@ h1{
   @apply absolute top-10  left-4 md:left-3 z-30
 }
 .header{
-  @apply absolute top-10  left-20  z-30 flex items-center space-x-2 
+  @apply absolute top-10  left-24  z-30 flex items-center space-x-2 
 }
 .bot{
   @apply  h-auto w-xl text-pretty mt-5  text-black dark:text-white
@@ -184,4 +184,29 @@ input[type="text"] {
 }
 .recent-chat-item{
   @apply text-gray-900 dark:text-white text-xl cursor-pointer
+}
+@media screen and (max-width:1280px) {
+  .sideBar{
+    width:5em;
+  }
+  .sideBar:hover{
+    width:30vw;
+  }
+}
+
+@media screen and (max-width:540px){
+  .sideBar{
+    width: 15vw;
+  }
+  .sideBar:hover{
+    width: 35vw;
+  }
+}
+@media screen and (max-width:412px){
+  .sideBar{
+    width: 20vw;
+  }
+  .sideBar:hover{
+    width: 45vw;
+  }
 }
