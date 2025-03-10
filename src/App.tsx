@@ -28,7 +28,7 @@ function App() {
       startChat ? <Chat/> : <> <div className="intro"><p><span>Hello,Dev.</span></p>
       <p className='intro-text'>How can I help you today?</p>
        </div>
-               <div className="features">
+               <div className="features ">
                  {/* Chat Feature */}
                  <div className="features-box">
                    <div className="features-icon bg-blue-700/20  dark:bg-blue-500/20">
