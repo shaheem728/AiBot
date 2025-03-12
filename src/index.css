@@ -79,7 +79,7 @@ h1{
   @apply  w-auto h-auto flex justify-center 
 }
 .chat{
-  @apply h-[60vh]  w-full  text-black dark:text-white overflow-y-scroll overflow-x-hidden
+  @apply    h-[60vh]  w-full  text-black dark:text-white overflow-y-scroll overflow-x-hidden
 }
 .chat::-webkit-scrollbar {
   display: none;
@@ -129,9 +129,17 @@ h1{
 .chatimg{
   @apply  absolute right-1 
 }
-.promptText{
-  @apply absolute right-1 rounded-s-full rounded-b-full  bg-gray-200 p-5  dark:bg-neutral-800
+.prompt-container{
+  @apply absolute right-1 p-5 rounded-s-full rounded-b-full  bg-gray-200   dark:bg-neutral-800 
 }
+.prompt{
+  @apply max-h-30 w-[100%]  p-2 overflow-y-auto 
+}
+
+.user{
+  @apply h-auto w-auto   
+}
+
 .bot{
   @apply  h-auto w-xl text-pretty   text-black dark:text-white
 }

@@ -5,20 +5,22 @@ const { showresult,prevUser,generateImageresult } = useContext(UserContext)
   return (
     <>
     <div className="chat">
-      <div className="h-auto w-auto m-3 p-20 ">
+      
     {
       prevUser.imgUrl?<div className='relative h-25  m-4 w-full'>
       <img className='chatimg' src={prevUser.imgUrl} alt='user' />
       </div>:''
     }
-     <div className='h-auto w-full relative'>
-      <span className='promptText'>
+     <div className='h-[150px] w-auto  relative'>
+      <span className='prompt-container'>
+      <p className='prompt'>
       {
         prevUser.prompt
       }
+     </p>
       </span>
      </div>
-     </div>
+   
      <div className='bot'>
      <img className='h-10' src="../public/AiBot.svg" alt="" />
      {
