@@ -157,8 +157,11 @@ h1{
   @apply flex w-full h-auto
 }
 
-input[type="text"] {
-  @apply w-full h-full border-none outline-none text-lg overflow-y-auto 
+textarea{
+  @apply w-full max-h-10 border-none outline-none text-lg overflow-y-auto pt-1
+}
+textarea::-webkit-scrollbar{
+  display:none;
 }
 .option,.submit{
   @apply  text-black dark:text-white mx-2 p-2
@@ -167,7 +170,7 @@ input[type="text"] {
   @apply bg-gray-300  dark:bg-gray-700 rounded-full
 }
 .submit{
-  @apply bg-gray-200  dark:bg-gray-700 p-2 rounded-full
+  @apply bg-gray-200 h-[2em] mt-1 dark:bg-gray-700  rounded-full
 }
 .submit:hover{
   @apply bg-gray-300  dark:bg-gray-800
