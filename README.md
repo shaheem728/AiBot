@@ -40,16 +40,18 @@ touch .env
 ```
 Add the following environment variables to the .env file:
 ```
-VITE_API_KEY=Gemini_api_key_here.
-VITE_API_TOKEN= Hugging_Face_api_Key_here.
+VITE_API_KEY = Google_api_key_here.
+VITE_API_TOKEN =  Hugging_Face_Tokens_here.
 ```
+
+Google Api key = https://aistudio.google.com/apikey
+
+Hugging Face = https://huggingface.co/settings/tokens
+
 Replace your_api_key_here and your_api_token_here with your actual credentials.
 
 ### Step 3: Build and Run the Application with Docker
-Return to the project root directory:
-```
-cd ..
-```
+
 Build and start the application using Docker Compose:
 ```
 docker-compose up --build
