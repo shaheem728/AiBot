@@ -56,7 +56,7 @@ Build and start the application using Docker Compose:
 ```
 docker-compose up --build
 ```
-The application will be available at http://localhost:3000 (or the port configured in your docker-compose.yml).
+The application will be available at http://localhost:5173 (or the port configured in your docker-compose.yml).
 
 ## Step 4: Access the Application
 Open your browser and navigate to http://localhost:3000.
