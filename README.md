@@ -29,11 +29,7 @@ git clone https://github.com/shaheem728/AiBot.git
 cd AiBot
 ```
 ### Step 2: Set Up the Environment Variables
-Navigate to the client folder:
 
-```bash
-cd client
-```
 Create a .env file:
 ```
 touch .env
@@ -59,7 +55,7 @@ docker-compose up --build
 The application will be available at http://localhost:5173 (or the port configured in your docker-compose.yml).
 
 ## Step 4: Access the Application
-Open your browser and navigate to http://localhost:3000.
+Open your browser and navigate to http://localhost:5173.
 
 Start interacting with AiBot and explore its featur
 
